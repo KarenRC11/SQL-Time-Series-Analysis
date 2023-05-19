@@ -1,0 +1,33 @@
+--Time series means analyzing data that is trended over time.
+
+--One common way of analyzing time series is comparing data between periods.
+
+--For example, day-over-day or month-over-month change.
+
+--The LAG() function in SQL is a window function that allows you to do this.
+
+--Using the LAG() function, you can calculate period-to-period changes, such as the difference in sales between consecutive months or the growth in user signups from week to week.
+
+--Let's consider an example where we have a table named monthly_sales with the following data (image below).
+
+--In this example, the LAG() function is used within the OVER() clause, which defines the order of rows to be used in the calculation.
+
+--The LAG(sales) function retrieves the sales value from the previous row, relative to the current row, when sorted by the month column.
+
+--That gives us the previous month's sales right next to the current month in the column to the right.
+
+--Then in the last column, we subtract the previous month's sales from the current month's sales to get the sales change.
+
+SELECT 
+	month, 
+	sales,
+	LAG(sales) OVER (ORDER BY month) AS previous_month_sals
+	sales - LAG(sales) OVER (ORDER BY month) AS sales_change
+FROM monthly_sales
+
+
+
+month           sales         previous_month_sales           sales_change
+2023-05-12  1000               NULL                                    NULL
+2023-06-14   1200              1000                                     200
+2023-07-13   1100               1200                                   -100   
