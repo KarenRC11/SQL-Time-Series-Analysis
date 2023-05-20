@@ -1,0 +1,16 @@
+--Ventas anteriores y ventas proximas
+
+SELECT custid, orderid, orderdate, val,
+	LAG(val) OVER(PARTITION BY cust_id
+			ORDER BY orderdate, orderid) AS prev_val,
+	LEAD(val) OVER(PARTITION BY cust_id
+			ORDER BY order_date, order_id) AS next_val
+FROM Sales.OrderValues;
+
+cust   order_id     order_date 	prev_val    next_val
+1	10643		  2007-08-25	NULL		878.00
+1	10692	        2007-10-03	814.50	330.00
+1	10702 	  2007-10-13	878.00	845.80
+2	10952	        2006-09-18	NULL		479.75
+2	10785		  2007-08-08	88.80		320.00
+2	10942	        2007-11-28	479.75	514.40
